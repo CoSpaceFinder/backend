@@ -1,10 +1,10 @@
-package pwr.csfbackend;
+package pwr.cospacefinderbackend;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class CsfBackendApplicationTests {
+class CoSpaceFinderBackendApplicationTests {
 
 	@Test
 	void contextLoads() {

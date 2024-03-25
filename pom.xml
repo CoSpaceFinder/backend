@@ -5,13 +5,13 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.2.3</version>
+		<version>3.2.4</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>pwr</groupId>
-	<artifactId>csf-backend</artifactId>
+	<artifactId>co-space-finder-backend</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>csf-backend</name>
+	<name>co-space-finder-backend</name>
 	<description>API for CoSpaceFinder app</description>
 	<properties>
 		<java.version>17</java.version>
@@ -19,12 +19,9 @@
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-rest</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
