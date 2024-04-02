@@ -40,9 +40,7 @@ jobs:
     environment:
       name: 'Production'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
-    permissions:
-      id-token: write #This is required for requesting the JWT
-  
+
     steps:
       - name: Download artifact from build job
         uses: actions/download-artifact@v3
@@ -62,5 +60,5 @@ jobs:
         with:
           app-name: 'co-space-finder'
           slot-name: 'Production'
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_93290BDF4A814EB3B81EBF5ADA5B42FC }}
           package: '*.jar'
-          
