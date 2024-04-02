@@ -59,5 +59,4 @@ jobs:
           app-name: 'co-space-finder'
           slot-name: 'Production'
           package: '*.jar'
-          startup-command: 'java -jar co-space-finder-backend-0.0.1-SNAPSHOT.jar'
           
