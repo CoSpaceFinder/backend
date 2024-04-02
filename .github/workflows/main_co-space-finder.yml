@@ -22,11 +22,7 @@ jobs:
           java-version: '17'
 
       - name: Build with Maven
-        env:
-          DB_URL: ${{ secrets.DB_URL }}
-          DB_USERNAME: ${{ secrets.DB_USERNAME }}
-          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-        run: mvn clean package -DskipTests
+        run: mvn clean install
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v3
@@ -42,7 +38,7 @@ jobs:
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
     permissions:
       id-token: write #This is required for requesting the JWT
-
+  
     steps:
       - name: Download artifact from build job
         uses: actions/download-artifact@v3
@@ -52,9 +48,9 @@ jobs:
       - name: Login to Azure
         uses: azure/login@v1
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_8171C78E253B425E90ACCC41498EA1DB }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_441C50FFF49C48E9BC9C298EEEFFFF7D }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_2489A64B7F67497782129C8C6CD49BE7 }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_59ED05A987E842D08B203B19C368CEA2 }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_34C8610F8DF64DB38AF35F9B117A414A }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_CEB8F1764C504D51949D620129B298D4 }}
 
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
@@ -62,5 +58,5 @@ jobs:
         with:
           app-name: 'co-space-finder'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_93290BDF4A814EB3B81EBF5ADA5B42FC }}
           package: '*.jar'
+          
