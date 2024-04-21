@@ -26,9 +26,9 @@ public class RoomService {
 
     public Room addRoom(RoomDTO room) {
         Room newRoom = new Room();
-        newRoom.setBuildingId(room.getBuildingId());
+        newRoom.setSpace(room.getSpace());
         newRoom.setName(room.getName());
-        newRoom.setType(room.getType());
+        newRoom.setRoomType(room.getRoomType());
         newRoom.setCapacity(room.getCapacity());
         return roomRepository.save(newRoom);
     }
@@ -36,9 +36,9 @@ public class RoomService {
     public Room updateRoom(Long id, RoomDTO room) {
         Room updatedRoom = roomRepository.findById(id).orElse(null);
         if (updatedRoom != null) {
-            updatedRoom.setBuildingId(room.getBuildingId());
+            updatedRoom.setSpace(room.getSpace());
             updatedRoom.setName(room.getName());
-            updatedRoom.setType(room.getType());
+            updatedRoom.setRoomType(room.getRoomType());
             updatedRoom.setCapacity(room.getCapacity());
             return roomRepository.save(updatedRoom);
         } else {
