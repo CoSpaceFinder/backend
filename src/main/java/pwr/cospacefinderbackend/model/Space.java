@@ -46,4 +46,8 @@ public class Space {
     @ManyToMany
     @Schema(description = "Conveniences of the space.")
     private List<Convenience> conveniences;
+
+    @ManyToOne
+    @Schema(description = "Owner of the space.")
+    private User owner;
 }

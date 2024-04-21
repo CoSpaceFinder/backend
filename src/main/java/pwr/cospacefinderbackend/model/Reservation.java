@@ -19,6 +19,11 @@ public class Reservation {
     @Schema(description = "Unique identifier of the reservation.", example = "1")
     private Long id;
 
+    @Column(nullable = false)
+    @Schema(description = "Unique code of the reservation. " +
+            "If the reservation was made for a few days it will have the same code.", example = "1")
+    private Long code;
+
     @ManyToOne
     @Schema(description = "User that made the reservation.", example = "1")
     private User user;
