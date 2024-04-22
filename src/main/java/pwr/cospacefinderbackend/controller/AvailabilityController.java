@@ -3,11 +3,11 @@ package pwr.cospacefinderbackend.controller;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import pwr.cospacefinderbackend.service.SpaceService;
+import pwr.cospacefinderbackend.service.AvailabilityService;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/space")
-public class SpaceController {
-    private final SpaceService spaceService;
+@RequestMapping("/availability")
+public class AvailabilityController {
+    private final AvailabilityService availabilityService;
 }
