@@ -3,11 +3,11 @@ package pwr.cospacefinderbackend.service;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import pwr.cospacefinderbackend.dto.RoomDTO;
+import pwr.cospacefinderbackend.exceptions.NotFoundException;
 import pwr.cospacefinderbackend.model.Room;
 import pwr.cospacefinderbackend.repository.RoomRepository;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 
 @Service
 @AllArgsConstructor
@@ -16,7 +16,7 @@ public class RoomService {
 
     public Room getRoomById(Long id) {
         return roomRepository.findById(id).orElseThrow(
-                () -> new NoSuchElementException("Room with id " + id + " does not exist")
+                () -> new NotFoundException("Room with id " + id + " does not exist")
         );
     }
 
@@ -42,7 +42,7 @@ public class RoomService {
             updatedRoom.setCapacity(room.getCapacity());
             return roomRepository.save(updatedRoom);
         } else {
-            throw new NoSuchElementException("Room with id " + id + " does not exist");
+            throw new NotFoundException("Room with id " + id + " does not exist");
         }
     }
 
@@ -52,7 +52,7 @@ public class RoomService {
             roomRepository.delete(room);
             return room;
         } else {
-            throw new NoSuchElementException("Room with id " + id + " does not exist");
+            throw new NotFoundException("Room with id " + id + " does not exist");
         }
     }
 
