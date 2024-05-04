@@ -3,10 +3,8 @@ package pwr.cospacefinderbackend.service;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import pwr.cospacefinderbackend.dto.AvailabilityDTO;
-import pwr.cospacefinderbackend.exceptions.AlreadyExistsException;
 import pwr.cospacefinderbackend.exceptions.NotFoundException;
 import pwr.cospacefinderbackend.model.Availability;
-import pwr.cospacefinderbackend.model.Space;
 import pwr.cospacefinderbackend.repository.AvailabilityRepository;
 
 import java.util.List;
@@ -15,7 +13,6 @@ import java.util.List;
 @AllArgsConstructor
 public class AvailabilityService {
     private final AvailabilityRepository availabilityRepository;
-    private final SpaceService spaceService;
 
     public List<Availability> getAllAvailabilities() {
         return availabilityRepository.findAll();
@@ -27,34 +24,22 @@ public class AvailabilityService {
         );
     }
 
-    public Availability addAvailability(AvailabilityDTO availability, Long spaceId) {
-        Space space = spaceService.getSpace(spaceId);
-        if (availabilityRepository.existsBySpaceAndDayOfWeek(space, availability.getDayOfWeek())) {
-            throw new AlreadyExistsException("Availability with space " + space.getName() +
-                    " and day of week " + availability.getDayOfWeek() + " already exists");
-        }
+    public Availability addAvailability(AvailabilityDTO availability) {
         Availability newAvailability = new Availability();
-        newAvailability.setSpace(space);
         newAvailability.setDayOfWeek(availability.getDayOfWeek());
         newAvailability.setStartTime(availability.getStartTime());
         newAvailability.setEndTime(availability.getEndTime());
+        newAvailability.setOpen(availability.isOpen());
         return availabilityRepository.save(newAvailability);
     }
 
-    public Availability updateAvailability(Long id, AvailabilityDTO updatedAvailability, Long spaceId) {
+    public Availability updateAvailability(Long id, AvailabilityDTO updatedAvailability) {
         Availability availability = availabilityRepository.findById(id).orElse(null);
-        Space space = spaceService.getSpace(spaceId);
         if (availability != null) {
-            if (availabilityRepository.existsBySpaceAndDayOfWeek(space, updatedAvailability.getDayOfWeek()) &&
-                    (!availability.getSpace().equals(space) ||
-                    !availability.getDayOfWeek().equals(updatedAvailability.getDayOfWeek()))) {
-                throw new AlreadyExistsException("Availability with space " + space.getName() +
-                        " and day of week " + updatedAvailability.getDayOfWeek() + " already exists");
-            }
-            availability.setSpace(space);
             availability.setDayOfWeek(updatedAvailability.getDayOfWeek());
             availability.setStartTime(updatedAvailability.getStartTime());
             availability.setEndTime(updatedAvailability.getEndTime());
+            availability.setOpen(updatedAvailability.isOpen());
             return availabilityRepository.save(availability);
         }
         throw new NotFoundException("Availability with id " + id + " does not exist");

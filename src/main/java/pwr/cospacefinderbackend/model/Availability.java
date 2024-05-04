@@ -20,20 +20,16 @@ public class Availability {
     @Schema(description = "Unique identifier of the availability.", example = "1")
     private long Id;
 
-    @ManyToOne
-    @JsonIgnore
-    @Schema(description = "Space that availability belongs to.", example = "1")
-    private Space space;
-
     @Column(nullable = false)
     @Schema(description = "Day of the week.", example = "1")
     private Integer dayOfWeek;
 
-    @Column(nullable = false)
     @Schema(description = "Start time of the availability.", example = "08:00")
     private LocalTime startTime;
 
-    @Column(nullable = false)
     @Schema(description = "End time of the availability.", example = "16:00")
     private LocalTime endTime;
+
+    @Schema(description = "Is space opened on this day.", example = "true")
+    private boolean isOpen;
 }

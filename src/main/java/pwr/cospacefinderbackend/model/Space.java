@@ -27,7 +27,7 @@ public class Space {
     @Schema(description = "Description of the space.", example = "description1")
     private String description;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @Schema(description = "Address of the space.")
     private Address address;
 
@@ -39,11 +39,11 @@ public class Space {
     @Schema(description = "User's grades average.", example = "4.5")
     private Double grade;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @Schema(description = "Space's availabilities.")
     private List<Availability> availabilities;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @Schema(description = "Conveniences of the space.")
     private List<Convenience> conveniences;
 

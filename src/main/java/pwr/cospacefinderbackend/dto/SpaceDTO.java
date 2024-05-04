@@ -34,6 +34,6 @@ public class SpaceDTO {
     @Schema(description = "Conveniences of the space.")
     private List<Convenience> conveniences;
 
-    @Schema(description = "Id of the owner of the space.")
-    private User owner;
+    @Schema(description = "Id of the owner of the space.", example = "1")
+    private Long ownerId;
 }

@@ -19,4 +19,7 @@ public class AvailabilityDTO {
 
     @Schema(description = "End time of the availability.", example = "16:00")
     private LocalTime endTime;
+
+    @Schema(description = "Is space opened on this day.", example = "true")
+    private boolean isOpen;
 }
