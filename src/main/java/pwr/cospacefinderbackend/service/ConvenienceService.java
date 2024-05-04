@@ -55,10 +55,4 @@ public class ConvenienceService {
             throw new NotFoundException("Convenience with id " + id + " does not exist");
         }
     }
-
-    public Convenience getConvenienceByName(String name) {
-        return convenienceRepository.findByName(name).orElseThrow(
-                () -> new NotFoundException("Convenience with name " + name + " does not exist")
-        );
-    }
 }

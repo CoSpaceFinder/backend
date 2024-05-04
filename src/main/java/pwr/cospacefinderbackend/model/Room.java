@@ -33,4 +33,12 @@ public class Room {
     @Column(nullable = false)
     @Schema(description = "Room's capacity.", example = "10")
     private Integer capacity;
+
+    @Column(nullable = false)
+    @Schema(description = "Room's floor.", example = "1")
+    private Integer floor;
+
+    @Column(nullable = false)
+    @Schema(description = "Price for renting the desk in the room.", example = "100.0")
+    private Double price;
 }

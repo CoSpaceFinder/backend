@@ -46,5 +46,4 @@ public class RoleController {
     public ResponseEntity<Role> deleteRole(@PathVariable Long id) {
         return ResponseEntity.ok(roleService.deleteRole(id));
     }
-
 }

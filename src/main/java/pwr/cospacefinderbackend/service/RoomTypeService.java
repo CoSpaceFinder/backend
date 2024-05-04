@@ -55,10 +55,4 @@ public class RoomTypeService {
             throw new NotFoundException("RoomType with id " + id + " does not exist");
         }
     }
-
-    public RoomType getRoomTypeByName(String name) {
-        return roomTypeRepository.findByName(name).orElseThrow(
-                () -> new NotFoundException("RoomType with name " + name + " does not exist")
-        );
-    }
 }

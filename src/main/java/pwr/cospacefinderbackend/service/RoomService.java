@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 import pwr.cospacefinderbackend.dto.RoomDTO;
 import pwr.cospacefinderbackend.exceptions.NotFoundException;
 import pwr.cospacefinderbackend.model.Room;
+import pwr.cospacefinderbackend.model.RoomType;
+import pwr.cospacefinderbackend.model.Space;
 import pwr.cospacefinderbackend.repository.RoomRepository;
 
 import java.util.List;
@@ -13,6 +15,8 @@ import java.util.List;
 @AllArgsConstructor
 public class RoomService {
     private final RoomRepository roomRepository;
+    private final RoomTypeService roomTypeService;
+    private final SpaceService spaceService;
 
     public Room getRoomById(Long id) {
         return roomRepository.findById(id).orElseThrow(
@@ -26,20 +30,28 @@ public class RoomService {
 
     public Room addRoom(RoomDTO room) {
         Room newRoom = new Room();
-        newRoom.setSpace(room.getSpace());
+        Space space = spaceService.getSpace(room.getSpaceId());
+        newRoom.setSpace(space);
         newRoom.setName(room.getName());
-        newRoom.setRoomType(room.getRoomType());
+        RoomType roomType = roomTypeService.getRoomType(room.getRoomTypeId());
+        newRoom.setRoomType(roomType);
         newRoom.setCapacity(room.getCapacity());
+        newRoom.setFloor(room.getFloor());
+        newRoom.setPrice(room.getPrice());
         return roomRepository.save(newRoom);
     }
 
     public Room updateRoom(Long id, RoomDTO room) {
         Room updatedRoom = roomRepository.findById(id).orElse(null);
         if (updatedRoom != null) {
-            updatedRoom.setSpace(room.getSpace());
+            Space space = spaceService.getSpace(room.getSpaceId());
+            updatedRoom.setSpace(space);
             updatedRoom.setName(room.getName());
-            updatedRoom.setRoomType(room.getRoomType());
+            RoomType roomType = roomTypeService.getRoomType(room.getRoomTypeId());
+            updatedRoom.setRoomType(roomType);
             updatedRoom.setCapacity(room.getCapacity());
+            updatedRoom.setFloor(room.getFloor());
+            updatedRoom.setPrice(room.getPrice());
             return roomRepository.save(updatedRoom);
         } else {
             throw new NotFoundException("Room with id " + id + " does not exist");

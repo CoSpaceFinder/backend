@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalTime;
 
 @Data
 @AllArgsConstructor
@@ -30,9 +31,9 @@ public class Availability {
 
     @Column(nullable = false)
     @Schema(description = "Start time of the availability.", example = "08:00")
-    private String startTime;
+    private LocalTime startTime;
 
     @Column(nullable = false)
     @Schema(description = "End time of the availability.", example = "16:00")
-    private String endTime;
+    private LocalTime endTime;
 }
