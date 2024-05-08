@@ -12,24 +12,13 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "reservation")
-public class Reservation {
+@Table(name = "reservation_part", uniqueConstraints = @UniqueConstraint(name = "UniqueReservationPart",
+        columnNames = {"room_id", "desk", "date"}))
+public class ReservationPart {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Schema(description = "Unique identifier of the reservation.", example = "1")
     private Long id;
-
-    @ManyToOne
-    @Schema(description = "User that made the reservation.", example = "1")
-    private User user;
-
-    @Column(nullable = false)
-    @Schema(description = "Start date of the reservation.", example = "2024-06-01")
-    private LocalDate startDate;
-
-    @Column(nullable = false)
-    @Schema(description = "End date of the reservation.", example = "2024-06-05")
-    private LocalDate endDate;
 
     @ManyToOne
     @Schema(description = "Room that reservation is made for.", example = "1")
@@ -40,6 +29,10 @@ public class Reservation {
     private Integer desk;
 
     @Column(nullable = false)
-    @Schema(description = "Price of the reservation.", example = "100.00")
-    private Double price;
+    @Schema(description = "Date of the reservation.", example = "2024-06-01")
+    private LocalDate date;
+
+    @ManyToOne
+    @Schema(description = "Reservation that reservation part is part of.", example = "1")
+    private Reservation reservation;
 }

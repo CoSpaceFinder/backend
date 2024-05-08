@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.Column;
 import java.time.LocalDate;
 
 @Data
@@ -20,6 +21,9 @@ public class ReservationDTO {
     @Schema(description = "Desk that reservation is made for.", example = "1")
     private Integer desk;
 
-    @Schema(description = "Date of the reservation.", example = "2024-06-01")
-    private LocalDate date;
+    @Schema(description = "Start date of the reservation.", example = "2024-06-01")
+    private LocalDate startDate;
+
+    @Schema(description = "End date of the reservation.", example = "2024-06-05")
+    private LocalDate endDate;
 }

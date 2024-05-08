@@ -12,6 +12,7 @@ import pwr.cospacefinderbackend.model.Space;
 import pwr.cospacefinderbackend.model.User;
 import pwr.cospacefinderbackend.repository.SpaceRepository;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -130,6 +131,26 @@ public class SpaceService {
         } else {
             throw new NotFoundException("Space with id " + id + " does not exist");
         }
+    }
+
+    public boolean isOpenOnDayOfWeek(Space space, int dayOfWeek) {
+        for (Availability availability : space.getAvailabilities()) {
+            if (availability.getDayOfWeek() == dayOfWeek) {
+                return availability.isOpen();
+            }
+        }
+        return false;
+    }
+
+    public int calculateDaysWhenSpaceIsOpen(LocalDate startDate, LocalDate endDate, Space space) {
+        int days = 0;
+        for (LocalDate date = startDate; date.isBefore(endDate.plusDays(1)); date = date.plusDays(1)) {
+            int dayOfWeek = date.getDayOfWeek().getValue();
+            if (isOpenOnDayOfWeek(space, dayOfWeek)) {
+                days++;
+            }
+        }
+        return days;
     }
 
 }

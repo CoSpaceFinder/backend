@@ -2,6 +2,7 @@ package pwr.cospacefinderbackend.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.AllArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -9,6 +10,7 @@ import pwr.cospacefinderbackend.dto.ReservationDTO;
 import pwr.cospacefinderbackend.model.Reservation;
 import pwr.cospacefinderbackend.service.ReservationService;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -28,6 +30,14 @@ public class ReservationController {
     @Operation(summary = "Get reservation by id", description = "Returns reservation with given id.")
     public ResponseEntity<Reservation> getReservationById(@PathVariable Long id) {
         return ResponseEntity.ok(reservationService.getReservation(id));
+    }
+
+    @GetMapping("/available-desks/{roomId}/{startDate}/{endDate}")
+    @Operation(summary = "Get available desks", description = "Returns available desks for given room and date range.")
+    public ResponseEntity<List<Integer>> getAvailableDesks(@PathVariable Long roomId,
+                                                           @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd")LocalDate startDate,
+                                                           @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate) {
+        return ResponseEntity.ok(reservationService.getAvailableDesks(roomId, startDate, endDate));
     }
 
     @PostMapping
