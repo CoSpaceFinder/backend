@@ -27,7 +27,7 @@ public class User {
     private String surname;
 
     @Column(nullable = false, unique = true)
-    @Schema(description = "User's email address.", example = "john.doe@pwr.edu.pl")
+    @Schema(description = "User's email address.", example = "john.doe@gmail.com")
     private String mail;
 
     @ManyToOne

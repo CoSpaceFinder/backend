@@ -19,7 +19,6 @@ import java.util.List;
 public class ReservationController {
     private final ReservationService reservationService;
 
-
     @GetMapping
     @Operation(summary = "Get all reservations", description = "Returns all reservations from database.")
     public ResponseEntity<List<Reservation>> getAllReservations() {
