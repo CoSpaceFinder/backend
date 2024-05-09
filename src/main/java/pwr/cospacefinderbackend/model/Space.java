@@ -35,10 +35,6 @@ public class Space {
     @Schema(description = "Space's capacity.", example = "100")
     private Integer capacity;
 
-    @Column(nullable = false)
-    @Schema(description = "User's grades average.", example = "4.5")
-    private Double grade;
-
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @Schema(description = "Space's availabilities.")
     private List<Availability> availabilities;
@@ -50,4 +46,8 @@ public class Space {
     @ManyToOne
     @Schema(description = "Owner of the space.")
     private User owner;
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @Schema(description = "Images of the space.")
+    private List<Image> images;
 }

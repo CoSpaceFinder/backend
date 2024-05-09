@@ -5,10 +5,13 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import pwr.cospacefinderbackend.dto.SpaceDTO;
+import pwr.cospacefinderbackend.model.Image;
 import pwr.cospacefinderbackend.model.Space;
 import pwr.cospacefinderbackend.service.SpaceService;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -35,6 +38,14 @@ public class SpaceController {
         return new ResponseEntity<>(spaceService.addSpace(space), HttpStatus.CREATED);
     }
 
+    @PostMapping(value = "/{id}/images", consumes = "multipart/form-data")
+    @Operation(summary = "Add images to space", description = "Adds images to space with given id.")
+    public ResponseEntity<Image> addImagesToSpace(@PathVariable Long id,
+                                                  @RequestParam("image") MultipartFile image,
+                                                  @RequestParam("caption") String caption) throws IOException {
+        return ResponseEntity.ok(spaceService.addImage(id, image, caption));
+    }
+
     @PutMapping("/{id}")
     @Operation(summary = "Update space", description = "Updates space with given id.")
     public ResponseEntity<Space> updateSpace(@PathVariable Long id, @RequestBody SpaceDTO updatedSpace) {
@@ -45,5 +56,11 @@ public class SpaceController {
     @Operation(summary = "Delete space", description = "Deletes space with given id.")
     public ResponseEntity<Space> deleteSpace(@PathVariable Long id) {
         return ResponseEntity.ok(spaceService.deleteSpace(id));
+    }
+
+    @DeleteMapping("/{id}/images/{imageId}")
+    @Operation(summary = "Delete image from space", description = "Deletes image with given id from space with given id.")
+    public ResponseEntity<Image> deleteImageFromSpace(@PathVariable Long id, @PathVariable Long imageId) {
+        return ResponseEntity.ok(spaceService.deleteImage(id, imageId));
     }
 }

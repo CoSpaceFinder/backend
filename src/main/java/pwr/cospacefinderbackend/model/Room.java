@@ -7,6 +7,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -41,4 +43,8 @@ public class Room {
     @Column(nullable = false)
     @Schema(description = "Price for renting the desk in the room.", example = "100.0")
     private Double price;
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @Schema(description = "Images of the room.")
+    private List<Image> images;
 }

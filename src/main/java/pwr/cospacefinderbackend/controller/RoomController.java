@@ -1,13 +1,17 @@
 package pwr.cospacefinderbackend.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import pwr.cospacefinderbackend.dto.RoomDTO;
+import pwr.cospacefinderbackend.model.Image;
 import pwr.cospacefinderbackend.model.Room;
 import pwr.cospacefinderbackend.service.RoomService;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -31,6 +35,14 @@ public class RoomController {
         return new ResponseEntity<>(roomService.addRoom(room), HttpStatus.CREATED);
     }
 
+    @PostMapping(value = "/{id}/images", consumes = "multipart/form-data")
+    @Operation(summary = "Add images to room", description = "Adds images to room with given id.")
+    public ResponseEntity<Image> addImagesToRoom(@PathVariable Long id,
+                                                 @RequestParam("image") MultipartFile image,
+                                                 @RequestParam("caption") String caption) throws IOException {
+        return ResponseEntity.ok(roomService.addImage(id, image, caption));
+    }
+
     @PutMapping("/{id}")
     public ResponseEntity<Room> updateRoom(@PathVariable Long id, @RequestBody RoomDTO room) {
         return new ResponseEntity<>(roomService.updateRoom(id, room), HttpStatus.OK);
@@ -41,5 +53,9 @@ public class RoomController {
         return new ResponseEntity<>(roomService.deleteRoom(id), HttpStatus.OK);
     }
 
-
+    @DeleteMapping("/{id}/images/{imageId}")
+    @Operation(summary = "Delete image from room", description = "Deletes image with given id from room with given id.")
+    public ResponseEntity<Image> deleteImageFromRoom(@PathVariable Long id, @PathVariable Long imageId) {
+        return ResponseEntity.ok(roomService.deleteImage(id, imageId));
+    }
 }

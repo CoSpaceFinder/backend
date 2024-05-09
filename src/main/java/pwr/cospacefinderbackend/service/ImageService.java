@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import pwr.cospacefinderbackend.exceptions.NotFoundException;
 import pwr.cospacefinderbackend.model.Image;
 import pwr.cospacefinderbackend.repository.ImageRepository;
 
@@ -41,6 +42,12 @@ public class ImageService {
         return imageRepository.findAll();
     }
 
+    public Image getImage(Long id) {
+        return imageRepository.findById(id).orElseThrow(
+                () -> new NotFoundException("Image with id " + id + " does not exist")
+        );
+    }
+
     public Image addImage(MultipartFile image, String caption) throws IOException {
         String blobFileName = image.getOriginalFilename();
         BlobClient blobClient = blobServiceClient
@@ -63,5 +70,20 @@ public class ImageService {
         newImage.setUrl(imageUrl);
 
         return imageRepository.save(newImage);
+    }
+
+    public Image deleteImage(Long id) {
+        Image image = imageRepository.findById(id).orElseThrow(
+                () -> new NotFoundException("Image with id " + id + " does not exist")
+        );
+        String imageUrl = image.getUrl();
+        String blobFileName = imageUrl.substring(imageUrl.lastIndexOf("/") + 1);
+        BlobClient blobClient = blobServiceClient
+                .getBlobContainerClient(containerName)
+                .getBlobClient(blobFileName);
+
+        blobClient.delete();
+        imageRepository.deleteById(id);
+        return image;
     }
 }

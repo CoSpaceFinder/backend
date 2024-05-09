@@ -25,9 +25,6 @@ public class SpaceDTO {
     @Schema(description = "Space's capacity.", example = "100")
     private Integer capacity;
 
-    @Schema(description = "User's grades average.", example = "4.5")
-    private Double grade;
-
     @Schema(description = "Availability of the space.")
     private List<AvailabilityDTO> availability;
 
