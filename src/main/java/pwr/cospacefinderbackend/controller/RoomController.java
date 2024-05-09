@@ -35,8 +35,8 @@ public class RoomController {
         return new ResponseEntity<>(roomService.addRoom(room), HttpStatus.CREATED);
     }
 
-    @PostMapping(value = "/{id}/images", consumes = "multipart/form-data")
-    @Operation(summary = "Add images to room", description = "Adds images to room with given id.")
+    @PostMapping(value = "/{id}/image", consumes = "multipart/form-data")
+    @Operation(summary = "Add image to room", description = "Adds image to room with given id.")
     public ResponseEntity<Image> addImagesToRoom(@PathVariable Long id,
                                                  @RequestParam("image") MultipartFile image,
                                                  @RequestParam("caption") String caption) throws IOException {
@@ -53,7 +53,7 @@ public class RoomController {
         return new ResponseEntity<>(roomService.deleteRoom(id), HttpStatus.OK);
     }
 
-    @DeleteMapping("/{id}/images/{imageId}")
+    @DeleteMapping("/{id}/image/{imageId}")
     @Operation(summary = "Delete image from room", description = "Deletes image with given id from room with given id.")
     public ResponseEntity<Image> deleteImageFromRoom(@PathVariable Long id, @PathVariable Long imageId) {
         return ResponseEntity.ok(roomService.deleteImage(id, imageId));

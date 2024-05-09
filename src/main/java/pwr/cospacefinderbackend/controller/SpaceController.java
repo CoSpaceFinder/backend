@@ -38,8 +38,8 @@ public class SpaceController {
         return new ResponseEntity<>(spaceService.addSpace(space), HttpStatus.CREATED);
     }
 
-    @PostMapping(value = "/{id}/images", consumes = "multipart/form-data")
-    @Operation(summary = "Add images to space", description = "Adds images to space with given id.")
+    @PostMapping(value = "/{id}/image", consumes = "multipart/form-data")
+    @Operation(summary = "Add image to space", description = "Adds image to space with given id.")
     public ResponseEntity<Image> addImagesToSpace(@PathVariable Long id,
                                                   @RequestParam("image") MultipartFile image,
                                                   @RequestParam("caption") String caption) throws IOException {
@@ -58,7 +58,7 @@ public class SpaceController {
         return ResponseEntity.ok(spaceService.deleteSpace(id));
     }
 
-    @DeleteMapping("/{id}/images/{imageId}")
+    @DeleteMapping("/{id}/image/{imageId}")
     @Operation(summary = "Delete image from space", description = "Deletes image with given id from space with given id.")
     public ResponseEntity<Image> deleteImageFromSpace(@PathVariable Long id, @PathVariable Long imageId) {
         return ResponseEntity.ok(spaceService.deleteImage(id, imageId));
