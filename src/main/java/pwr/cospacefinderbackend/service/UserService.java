@@ -27,6 +27,12 @@ public class UserService {
         );
     }
 
+    public User getUserByMail(String mail) {
+        return userRepository.findByMail(mail).orElseThrow(
+                () -> new NotFoundException("User with mail " + mail + " does not exist")
+        );
+    }
+
     public User addUser(UserDTO user) {
         if (userRepository.existsByMail(user.getMail())) {
             throw new AlreadyExistsException("User with mail " + user.getMail() + " already exists");

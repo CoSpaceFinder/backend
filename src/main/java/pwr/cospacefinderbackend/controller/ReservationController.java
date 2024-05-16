@@ -39,6 +39,12 @@ public class ReservationController {
         return ResponseEntity.ok(reservationService.getAvailableDesks(roomId, startDate, endDate));
     }
 
+    @GetMapping("/user/{userId}")
+    @Operation(summary = "Get reservations by user id", description = "Returns all reservations for given user.")
+    public ResponseEntity<List<Reservation>> getReservationsByUserId(@PathVariable Long userId) {
+        return ResponseEntity.ok(reservationService.getReservationsByUserId(userId));
+    }
+
     @PostMapping
     @Operation(summary = "Add reservation", description = "Adds reservation to database.")
     public ResponseEntity<Reservation> addReservation(@RequestBody ReservationDTO reservation) {

@@ -34,7 +34,15 @@ public class RoomService {
         return roomRepository.findAll();
     }
 
+    public List<Room> getRoomsBySpaceId(Long spaceId) {
+        return roomRepository.findBySpaceId(spaceId);
+    }
+
     public Room addRoom(RoomDTO room) {
+        if (checkIfNameExistsInSpace(room.getName(), room.getSpaceId())) {
+            throw new IllegalArgumentException("Room with name " + room.getName() +
+                    " already exists in the space with id " + room.getSpaceId());
+        }
         Room newRoom = new Room();
         Space space = spaceService.getSpace(room.getSpaceId());
         newRoom.setSpace(space);
@@ -51,6 +59,11 @@ public class RoomService {
     public Room updateRoom(Long id, RoomDTO room) {
         Room updatedRoom = roomRepository.findById(id).orElse(null);
         if (updatedRoom != null) {
+            if ((!updatedRoom.getName().equals(room.getName()) || !updatedRoom.getSpace().getId().equals(room.getSpaceId()))
+                    && checkIfNameExistsInSpace(room.getName(), room.getSpaceId())) {
+                throw new IllegalArgumentException("Room with name " + room.getName() +
+                        " already exists in the space with id " + room.getSpaceId());
+            }
             Space space = spaceService.getSpace(room.getSpaceId());
             updatedRoom.setSpace(space);
             updatedRoom.setName(room.getName());
@@ -63,6 +76,11 @@ public class RoomService {
         } else {
             throw new NotFoundException("Room with id " + id + " does not exist");
         }
+    }
+
+    private boolean checkIfNameExistsInSpace(String name, Long spaceId) {
+        List<Room> rooms = roomRepository.findBySpaceIdAndName(spaceId, name);
+        return !rooms.isEmpty();
     }
 
     @Transactional
@@ -113,7 +131,4 @@ public class RoomService {
         roomRepository.save(room);
         return image;
     }
-
-
-
 }

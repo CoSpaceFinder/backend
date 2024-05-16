@@ -33,6 +33,10 @@ public class ReservationService {
         );
     }
 
+    public List<Reservation> getReservationsByUserId(Long userId) {
+        return reservationRepository.findAllByUserId(userId);
+    }
+
     public Reservation addReservation(ReservationDTO reservation) {
         User user = userService.getUser(reservation.getUserId());
         Room room = roomService.getRoomById(reservation.getRoomId());
@@ -47,7 +51,13 @@ public class ReservationService {
         newReservation.setEndDate(reservation.getEndDate());
         newReservation.setRoom(room);
         newReservation.setDesk(reservation.getDesk());
-        newReservation.setPrice(calculatePrice(reservation.getStartDate(), reservation.getEndDate(), room));
+        double price = calculatePrice(reservation.getStartDate(), reservation.getEndDate(), room);
+        if (price == 0) {
+            throw new IllegalArgumentException("Cannot make reservation for the room: " + reservation.getRoomId() +
+                    ", desk: " + reservation.getDesk() + " and dates: " + reservation.getStartDate() +
+                    " - " + reservation.getEndDate() + " because the space is closed on these days");
+        }
+        newReservation.setPrice(price);
         reservationRepository.save(newReservation);
 
         List<ReservationPart> reservationParts = divideReservationIntoParts(newReservation);
@@ -79,7 +89,13 @@ public class ReservationService {
         reservation.setEndDate(updatedReservation.getEndDate());
         reservation.setRoom(room);
         reservation.setDesk(updatedReservation.getDesk());
-        reservation.setPrice(calculatePrice(updatedReservation.getStartDate(), updatedReservation.getEndDate(), room));
+        double price = calculatePrice(updatedReservation.getStartDate(), updatedReservation.getEndDate(), room);
+        if (price == 0) {
+            throw new IllegalArgumentException("Cannot update reservation for the room: " + updatedReservation.getRoomId() +
+                    ", desk: " + updatedReservation.getDesk() + " and dates: " + updatedReservation.getStartDate() +
+                    " - " + updatedReservation.getEndDate() + " because the space is closed on these days.");
+        }
+        reservation.setPrice(price);
 
         List<ReservationPart> newReservationParts = divideReservationIntoParts(reservation);
         List<ReservationPart> reservationPartsToDelete = new ArrayList<>();

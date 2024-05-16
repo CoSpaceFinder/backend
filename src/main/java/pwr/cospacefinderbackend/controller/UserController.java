@@ -46,4 +46,10 @@ public class UserController {
     public ResponseEntity<User> deleteUser(@PathVariable Long id) {
         return ResponseEntity.ok(userService.deleteUser(id));
     }
+
+    @GetMapping("/mail/{mail}")
+    @Operation(summary = "Get user by mail", description = "Returns user with given mail.")
+    public ResponseEntity<User> getUserByMail(@PathVariable String mail) {
+        return ResponseEntity.ok(userService.getUserByMail(mail));
+    }
 }

@@ -30,6 +30,12 @@ public class RoomController {
         return new ResponseEntity<>(roomService.getRoomById(id), HttpStatus.OK);
     }
 
+    @GetMapping("/space/{spaceId}")
+    @Operation(summary = "Get rooms by space id", description = "Returns list of rooms with given space id.")
+    public ResponseEntity<List<Room>> getRoomsBySpaceId(@PathVariable Long spaceId) {
+        return new ResponseEntity<>(roomService.getRoomsBySpaceId(spaceId), HttpStatus.OK);
+    }
+
     @PostMapping
     public ResponseEntity<Room> addRoom(@RequestBody RoomDTO room) {
         return new ResponseEntity<>(roomService.addRoom(room), HttpStatus.CREATED);
